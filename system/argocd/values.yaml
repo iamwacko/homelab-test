@@ -35,8 +35,8 @@ argocd-apps:
       namespace: argocd
       generators:
         - git:
-            repoURL: &repoURL http://gitea-http.gitea:3000/ops/homelab
-            revision: &revision master
+            repoURL: &repoURL https://github.com/iamwacko/homelab-test
+            revision: &revision main
             directories:
               - path: system/*
               - path: platform/*

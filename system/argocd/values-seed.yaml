@@ -16,7 +16,7 @@ argocd-apps:
       generators:
         - git:
             repoURL: &repoURL https://github.com/iamwacko/homelab-test
-            revision: &revision master
+            revision: &revision main
             directories:
               - path: system/*
               - path: platform/*
