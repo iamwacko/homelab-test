@@ -5,7 +5,7 @@ version: '3'
 vars:
   README: Read the README!
   
-dotenv: ['.env']
+#dotenv: ['.env']
 
 tasks:
   default:
