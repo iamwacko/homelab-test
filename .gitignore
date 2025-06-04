@@ -1,1 +1,8 @@
-*/Chart.lock
+**/Chart.lock
+**/*.tgz
+talos/clusterconfig
+talos/clusterconfig/*
+talos/.sops.yaml
+system/argocd/Chart.lock
+system/argocd/charts/*.tgz
+*.tgz

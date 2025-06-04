@@ -12,9 +12,11 @@ tasks:
     cmds:
       - echo "{{.README}}"
     silent: true
-  talm:
+  talgen:
+    dir: talos
     cmds:
-      - talm
+      - talhelper genconfig
   argocd-deploy:
+    dir: system
     cmds:
       - ansible-playbook bootstrap.yml -vvv

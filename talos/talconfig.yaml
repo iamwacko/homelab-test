@@ -1,0 +1,48 @@
+---
+clusterName: home-cluster
+talosVersion: v1.10.3
+kubernetesVersion: v1.33.0
+endpoint: https://192.168.1.61:6443
+allowSchedulingOnMasters: true
+cniConfig:
+  name: flannel
+nodes:
+  - hostname: server1
+    userVolumes:
+      - name: ceph-data
+        provisioning:
+          diskSelector: 
+            match: disk.size > 120u * GB
+          maxSize: 500GiB
+        filesystem:
+          type: xfs
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector: 
+            match: disk.size > 120u * GB
+          maxSize: 50GiB
+    ipAddress: 192.168.1.61
+    controlPlane: true
+    installDisk: /dev/sda
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+            - siderolabs/nebula
+    extensionServices:
+      - name: nebula
+        configFiles:
+          - content: |
+            pki:
+              ca: /usr/local/etc/nebula/ca.crt
+              cert: /usr/local/etc/nebula/node.crt
+              key: /usr/local//etc/nebula/node.key
+            mountPath: /usr/local/etc/nebula/config.yml
+          - content: "-----BEGIN NEBULA CERTIFICATE-----\nCmUKB3NlcnZlcjESCoLIoYUMgP7//w8o2saCugYw+KuHyQY6IO4Q4qN1uUAFNiiZ\nR5lXoxqdVawRovHecyn4MF3oWCV+SiA2YpSv2+I5rvoHuJXH5xmdd3eb5Gsp0iN7\nXjBhfSfrYBJADo9XXn8JinKeLCWvYgWQnNFpSSiiLZNfz1aVcGrjwavAobYoSjsR\na9FE3XiQRkXhr6ZbMw7S188Oh2kKJeRWCA==\n-----END NEBULA CERTIFICATE-----"
+            mountPath: "/usr/local/etc/nebula/ca.crt"
+          - content: "-----BEGIN NEBULA CERTIFICATE-----\nCkEKD2hvbWVsYWIgbmV0d29yayj5xIK6BjD5q4fJBjog63fm549P40cmSAXs+xPZ\n5snNY9iL2QMXcW1n6d09OtpAARJAhlckqC/MqbtkbDbIqQq5NkCJFMsXMC/IwUsL\nLdszXIqBOIZB5Tjh5QULXrYVQJoinVMjz3aZ0hmbOqckLnsxCQ==\n-----END NEBULA CERTIFICATE-----"
+            mountPath: /usr/local/etc/nebula/node.crt
+          - content: "-----BEGIN NEBULA X25519 PRIVATE KEY-----\nFrzyp8I7KsGdkRf3HroqJxMo35tkMdqp4RIGp4nXV+Y=\n-----END NEBULA X25519 PRIVATE KEY-----"
+            mountPath: /usr/local/etc/nebula/node.key
